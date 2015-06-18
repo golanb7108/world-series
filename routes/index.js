@@ -40,7 +40,7 @@ router.get('/series', function(req, res) {
           +                 '<img src="/images/place-holder-240x200.jpg" data-src="{{poster}}" class="lazyload" '
           +                 'style="width:160px; height:225px; border:4px groove black; float:left; margin-right: 2%; margin-bottom: 1em "'
           +                 'title="{{title}}" alt="{{title}}" />'
-          +                 '<a class="btn-floating btn-large waves-effect waves-light yellow accent-4" '
+          +                 '<a class="btn-floating btn waves-effect waves-light yellow accent-4" '
           +                 'style="position: absolute; bottom:0px; right:0px" onclick=\'showSeriesTitle("{{title}}")\'>'
           +                   '<i class="mdi-content-add"></i></a>'
           +            '</div> ';
