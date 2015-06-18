@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  div(class="center-align")
+    h1(class="white-text") World-Series
+    p(class="grey-text text-lighten-4") Check what portion of your life you spent on seeing.. TV Series!.
+    div()
+      h1(style="display: none" id="ageInput" class="white-text") I pushed in!
+    a(id="btn" class="waves-effect waves-light btn yellow accent-4 black-text" href="#") Let's Start
+    script.
+      (function() {
+              document.getElementById("btn").onclick = function () {
+                document.getElementById("ageInput").style.display = "block";
+              };
+      })();
