@@ -45,3 +45,8 @@ $(document).ready(function(){
         limit: 10
     });
 });
+
+function showSeriesTitle(title) {
+    Materialize.toast(title, 4000);
+}
+
