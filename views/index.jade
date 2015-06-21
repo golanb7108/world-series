@@ -4,12 +4,18 @@ block content
   div(class="center-align")
     h1(class="white-text") World-Series
     p(class="grey-text text-lighten-4") Check what portion of your life you spent on seeing.. TV Series!.
-    div()
-      h1(style="display: none" id="ageInput" class="white-text") I pushed in!
     a(id="btn" class="waves-effect waves-light btn yellow accent-4 black-text" href="#") Let's Start
+    row(id="ageInput" style="display: none")
+        div(class="input-field col s2 offset-s5")
+            i(class="mdi-social-mood prefix")
+            input(id="icon_prefix" type="text" class="validate")
+            label(for="icon_prefix") How old are you?
+        div(class="col s2 offset-s5")
+            a(class="waves-effect waves-light btn yellow accent-4 black-text" href="/series") Choose series
     script.
       (function() {
               document.getElementById("btn").onclick = function () {
                 document.getElementById("ageInput").style.display = "block";
+                document.getElementById("btn").style.display = "none";
               };
       })();

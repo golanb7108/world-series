@@ -17,39 +17,71 @@ router.get('/refreshTaken', function(req, res) {
 
 /* GET Userlist page. */
 router.get('/series', function(req, res) {
-  if (firstSeries) {
-    firstSeries = false;
-    var db = req.db;
-    var collection = db.get('series');
-    collection.find({}, {}, function (e, docs) {
+  if (typeof req.query.key !== "undefined") {
+    firstSeries = true;
+    seriesCounter = 0;
+    seriesList = [];
+    var re = new RegExp(".*" + req.query.key + ".*","i");
+
+    req.db.get('series').find({"title" : re}, {}, function (e, docs) {
       docs.forEach(function(doc, index) {
         seriesList.push({title: doc.title, poster: doc.poster});
       });
-      res.render('serieslist', {
-        "series": seriesList.slice(seriesCounter, Math.min(seriesCounter + 50, seriesList.length))
-      });
-      seriesCounter += 50;
-    });
-  }
-  else {
-    var appendJade = "";
-    var nextChunk = seriesList.slice(seriesCounter, Math.min(seriesCounter + 50, seriesList.length));
-    for (var series in nextChunk) {
-      appendJade
-          +=           '<div style="position: relative; width:160px; height:225px; border:4px groove black; float:left; margin-right: 2%; margin-bottom: 1em">'
-          +                 '<img src="/images/place-holder-240x200.jpg" data-src="{{poster}}" class="lazyload" '
-          +                 'style="width:160px; height:225px; border:4px groove black; float:left; margin-right: 2%; margin-bottom: 1em "'
-          +                 'title="{{title}}" alt="{{title}}" />'
-          +                 '<a class="btn-floating btn waves-effect waves-light yellow accent-4" '
-          +                 'style="position: absolute; bottom:0px; right:0px" onclick=\'showSeriesTitle("{{title}}")\'>'
-          +                   '<i class="mdi-content-add"></i></a>'
-          +            '</div> ';
 
-      appendJade = appendJade.replace(/\{\{poster}}/g, nextChunk[series].poster);
-      appendJade = appendJade.replace(/\{\{title}}/g, nextChunk[series].title);
+      var appendJade = "";
+      for (var series in seriesList) {
+        appendJade
+            += '<div style="position: relative; width:160px; height:225px; border:4px groove black; float:left; margin-right: 2%; margin-bottom: 1em">'
+        + '<img src="/images/place-holder-240x200.jpg" data-src="{{poster}}" class="lazyload" '
+        + 'style="width:160px; height:225px; border:4px groove black; float:left; margin-right: 2%; margin-bottom: 1em "'
+        + 'title="{{title}}" alt="{{title}}" />'
+        + '<a class="btn-floating btn waves-effect waves-light yellow accent-4" '
+        + 'style="position: absolute; bottom:0px; right:0px" onclick=\'showSeriesTitle("{{title}}")\'>'
+        + '<i class="mdi-content-add"></i></a>'
+        + '</div> ';
+
+        appendJade = appendJade.replace(/\{\{poster}}/g, seriesList[series].poster);
+        appendJade = appendJade.replace(/\{\{title}}/g, seriesList[series].title);
+      }
+      seriesCounter += 50;
+      res.send(appendJade);
+
+    });
+  } else {
+    if (firstSeries) {
+      firstSeries = false;
+      var db = req.db;
+      var collection = db.get('series');
+      collection.find({}, {}, function (e, docs) {
+        docs.forEach(function (doc, index) {
+          seriesList.push({title: doc.title, poster: doc.poster});
+        });
+        res.render('serieslist', {
+          "series": seriesList.slice(seriesCounter, Math.min(seriesCounter + 50, seriesList.length))
+        });
+        seriesCounter += 50;
+      });
     }
-    seriesCounter += 50;
-    res.send(appendJade);
+    else {
+      var appendJade = "";
+      var nextChunk = seriesList.slice(seriesCounter, Math.min(seriesCounter + 50, seriesList.length));
+      for (var series in nextChunk) {
+        appendJade
+            += '<div style="position: relative; width:160px; height:225px; border:4px groove black; float:left; margin-right: 2%; margin-bottom: 1em">'
+        + '<img src="/images/place-holder-240x200.jpg" data-src="{{poster}}" class="lazyload" '
+        + 'style="width:160px; height:225px; border:4px groove black; float:left; margin-right: 2%; margin-bottom: 1em "'
+        + 'title="{{title}}" alt="{{title}}" />'
+        + '<a class="btn-floating btn waves-effect waves-light yellow accent-4" '
+        + 'style="position: absolute; bottom:0px; right:0px" onclick=\'showSeriesTitle("{{title}}")\'>'
+        + '<i class="mdi-content-add"></i></a>'
+        + '</div> ';
+
+        appendJade = appendJade.replace(/\{\{poster}}/g, nextChunk[series].poster);
+        appendJade = appendJade.replace(/\{\{title}}/g, nextChunk[series].title);
+      }
+      seriesCounter += 50;
+      res.send(appendJade);
+    }
   }
 });
 
@@ -92,7 +124,7 @@ router.get('/search',function(req,res){
   var db = req.db,
       collection = db.get('series'),
       titleList = [],
-      re = new RegExp(".*" + req.query.key + ".*","i");
+  re = new RegExp(".*" + req.query.key + ".*","i");
 
   collection.find({"title" : re}, {}, function (e, docs) {
     docs.forEach(function(doc, index) {
