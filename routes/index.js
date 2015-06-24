@@ -15,6 +15,23 @@ router.get('/refreshTaken', function(req, res) {
   seriesList = [];
 });
 
+router.get('/addSeries', function(req, res) {
+  if (typeof req.query.key !== "undefined") {
+      var appendJade = "";
+      appendJade
+      += '<div id="{{id}}" style="float: left; margin-left: 0.5cm; margin-top: 0.3cm; background-color: #FFFF00; padding-top: 0.17cm; border-radius: 4px; padding-left:0.2cm; padding-right:0.1cm">'
+      +       '<label style=" color: black; font-weight: bold; font-size:medium"> {{title}} </label>'
+      +       '<a href="#!" class="secondary-content" style="margin-left: 1cm" onclick="deleteItem(\'{{title}}\')">'
+      +             '<i class="material-icons"> delete </i></a>'
+      +  '</div> ';
+
+    appendJade = appendJade.replace('{{title}}', req.query.key);
+    appendJade = appendJade.replace(/\{\{title}}/g, req.query.key);
+    appendJade = appendJade.replace(/\{\{id}}/g, req.query.key);
+      res.send(appendJade);
+  }
+});
+
 /* GET Userlist page. */
 router.get('/series', function(req, res) {
   if (typeof req.query.key !== "undefined") {

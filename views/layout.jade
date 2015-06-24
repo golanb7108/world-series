@@ -4,6 +4,7 @@ html
     title= title
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
     script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js")
     script(src="/javascripts/libs/lazysizes.min.js" async="")
@@ -12,20 +13,23 @@ html
     script(src="//cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.9.3/typeahead.min.js")
   body
     div(class="blue-grey darken-3")
-      div(class="navbar-fixed")
-        nav
-          div(class="nav-wrapper white")
-            a(href="#!" class="brand-logo blue-grey-text text-darken-3") World-Series
-            ul(class="right hide-on-med-and-down")
-              block search
-              li
-                a(href="#" class="blue-grey-text text-darken-3") About
-              li
-                a(href="#" class="blue-grey-text text-darken-3") BLA
       footer(class="page-footer blue-grey darken-3")
         div(class=" bottom-all top-two")
           div(class="row")
             block content
+
+            ul(id="nav-mobile" class="side-nav fixed" style="width: 240px; left:0px;")
+              li(style="height: 120px; margin-top: 10px;")
+                a(href="/series")
+                  img(src="/favicon.ico" style="height: 100px; width: 170px;")
+              li(class="bold")
+                a(href="about.html" class="waves-effect waves-teal") About
+              li(class="bold")
+                a(href="/" class="waves-effect waves-teal") Let's Start
+              li(class="bold")
+                a(href="/series" class="waves-effect waves-teal") Series List
+              li(class="bold")
+                a(href="/" class="waves-effect waves-teal") Sum up
 
         div(class="footer-copyright")
           div(class="container") © 2015 Copyright Text

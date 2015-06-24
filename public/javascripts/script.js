@@ -53,6 +53,19 @@ $(document).ready(function(){
 
 function showSeriesTitle(title) {
     Materialize.toast(title, 4000);
+
+    $.ajax({
+        url: '/addSeries?key=' + title,
+        method: 'get',
+        success: function(data){
+            $("#watchedSeriesList").append(data);
+        }
+    });
+}
+
+function deleteItem(title) {
+    var element = document.getElementById(title);
+    element.parentNode.removeChild(element);
 }
 
 $('.datepicker').pickadate({
@@ -78,4 +91,8 @@ $(document).ready(function(){
             });
         }
     });
+});
+
+$(document).ready(function(){
+    $('.tabs-wrapper .row').pushpin({ top: $('.tabs-wrapper').offset().top });
 });

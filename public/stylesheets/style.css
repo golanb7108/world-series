@@ -1,13 +1,17 @@
 .top-two {
-  margin-top: 1cm;
+  margin-top: 2cm;
 }
 
 .bottom-all {
-  margin-bottom: 13cm;
+  margin-bottom: 17cm;
 }
 
 .left-one {
   margin-left: 2.5cm;
+}
+
+header, main, footer {
+  padding-left: 240px;
 }
 
 .twitter-typeahead {
@@ -178,4 +182,14 @@
 }
 .tt-suggestion p {
   margin: 0;
+}
+
+.box{
+  border:1px solid red;
+  position: fixed;
+  width:85px;
+  bottom:0px;
+  top:70px;
+  overflow-x: hidden;
+  overflow-y: auto
 }
