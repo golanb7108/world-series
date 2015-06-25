@@ -8,10 +8,10 @@ block content
     div(id="ageInput" class="row" style="display: none")
         div(class="input-field col s4 offset-s4")
             i(class="mdi-social-mood prefix")
-            input(id="icon_prefix" type="text" class="validate")
+            input(id="icon_prefix" type="text" class="validate" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="2")
             label(for="icon_prefix") How old are you?
         div(class="col s4 offset-s4")
-            a(class="waves-effect waves-light btn yellow accent-4 black-text" href="/series") Choose series
+            a(class="waves-effect waves-light btn yellow accent-4 black-text" href="/series" onclick="sessionStorage.age = document.getElementById('icon_prefix').value;") Choose series
     script.
       (function() {
               document.getElementById("btn").onclick = function () {

@@ -9,6 +9,20 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'World Series' }); //index.jade is the corresponding jade
 });
 
+router.get('/sumUp', function(req, res, next) {
+  if (typeof req.query.key !== "undefined") {
+    console.log(req.query.key);
+  }
+  res.redirect('/sum');
+});
+
+router.get('/sum', function(req, res, next) {
+  if (typeof req.query.key !== "undefined") {
+    console.log(req.query.key);
+  }
+  res.render('sum', {total: "total of " + req.query.key});
+});
+
 router.get('/refreshTaken', function(req, res) {
   firstSeries = true;
   seriesCounter = 0;
@@ -17,18 +31,14 @@ router.get('/refreshTaken', function(req, res) {
 
 router.get('/addSeries', function(req, res) {
   if (typeof req.query.key !== "undefined") {
-      var appendJade = "";
-      appendJade
-      += '<div id="{{id}}" style="float: left; margin-left: 0.5cm; margin-top: 0.3cm; background-color: #FFFF00; padding-top: 0.17cm; border-radius: 4px; padding-left:0.2cm; padding-right:0.1cm">'
-      +       '<label style=" color: black; font-weight: bold; font-size:medium"> {{title}} </label>'
-      +       '<a href="#!" class="secondary-content" style="margin-left: 1cm" onclick="deleteItem(\'{{title}}\')">'
-      +             '<i class="material-icons"> delete </i></a>'
-      +  '</div> ';
-
-    appendJade = appendJade.replace('{{title}}', req.query.key);
-    appendJade = appendJade.replace(/\{\{title}}/g, req.query.key);
-    appendJade = appendJade.replace(/\{\{id}}/g, req.query.key);
-      res.send(appendJade);
+    var totalRuntime;
+    req.db.get('series').find({"title" : req.query.key}, {}, function (e, docs) {
+      docs.forEach(function (doc, index) {
+        totalRuntime = parseInt(doc.runtime) * parseInt(doc.episodes);
+        console.log(totalRuntime.toString);
+      });
+      res.send(200, totalRuntime);
+    });
   }
 });
 
